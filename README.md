@@ -1,6 +1,6 @@
 # 怎么使用 ikunnCheckin
 
-## 1.在fork此项目
+## 1.fork此项目
 
 ## 2.配置环境变量
 
