@@ -28,7 +28,7 @@ async function login(email, password) {
       .map(part => part.split(';')[0]);
 
     const cookie = cookieParts.join('; ');
-    console.log('Generated cookie:', cookie);
+    // console.log('Generated cookie:', cookie);
 
     return cookie;
   } catch (error) {
