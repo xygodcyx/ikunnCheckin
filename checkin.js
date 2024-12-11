@@ -18,14 +18,19 @@ async function login(email, password) {
       body: formData.toString()
     });
 
-    const cookies = response.headers.get('set-cookie');
-    const data = await response.json();
-
-    if (!data.ret) {
-      throw new Error(data.msg || 'Login failed');
+    const setCookieHeader = response.headers.get('set-cookie');
+    if (!setCookieHeader) {
+      throw new Error('No set-cookie header found');
     }
 
-    return cookies;
+    const cookieParts = setCookieHeader.split(', ')
+      .filter(part => /^(uid|email|key|ip|expire_in)=/.test(part))
+      .map(part => part.split(';')[0]);
+
+    const cookie = cookieParts.join('; ');
+    console.log('Generated cookie:', cookie);
+
+    return cookie;
   } catch (error) {
     console.error(`Login failed for ${email}:`, error.message);
     return null;
@@ -67,7 +72,7 @@ async function processAccount(account) {
 }
 
 async function main() {
-  const accountsJson = process.env.IKUUU_ACCOUNTS;
+  const accountsJson = process.env.IKUUU_ACCOUNTS || '[{"email": "xxyxxxyx666@gmail.com", "password": "xxyxxxyx666"}]';
   if (!accountsJson) {
     console.error('No accounts found in environment variable');
     return;
