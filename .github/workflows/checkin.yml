@@ -1,0 +1,23 @@
+name: iKuuu Daily Checkin
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run at 00:00 UTC every day
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  checkin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Run checkin script
+        env:
+          IKUUU_ACCOUNTS: ${{ secrets.IKUUU_ACCOUNTS }}
+        run: node checkin.js
