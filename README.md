@@ -5,9 +5,8 @@
 ## 2.配置环境变量
 
 ![alt text](./imgs/0967c8acc1a7ab5809d8008415a325c6.png)
-
 ### 格式
-
+  **变量名为：IKUUU_ACCOUNTS** 
   ```json
   [
     { "email": "your_email_1","password": "your_password_1" },
