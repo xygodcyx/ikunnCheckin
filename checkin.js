@@ -72,7 +72,7 @@ async function processAccount(account) {
 }
 
 async function main() {
-  const accountsJson = process.env.IKUUU_ACCOUNTS || '[{"email": "xxyxxxyx666@gmail.com", "password": "xxyxxxyx666"}]';
+  const accountsJson = process.env.IKUUU_ACCOUNTS;
   if (!accountsJson) {
     console.error('No accounts found in environment variable');
     return;
