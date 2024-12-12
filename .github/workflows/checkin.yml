@@ -1,9 +1,12 @@
 name: iKuuu Daily Checkin
 
 on:
+  # run automatically every 24 hours
   schedule:
-    - cron: '0 0 * * *' # Run at 00:00 UTC every day
-  workflow_dispatch: # Allow manual trigger
+    - cron: "0 */24 * * *" 
+
+  # allows to manually run the job at any time
+  workflow_dispatch:
 
 jobs:
   checkin:
