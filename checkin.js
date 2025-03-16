@@ -77,8 +77,6 @@ async function main() {
     console.error('No accounts found in environment variable');
     return;
   }
-  console.log(accountsJson)
-
   let accounts;
   try {
     accounts = JSON.parse(accountsJson);
