@@ -3,7 +3,7 @@
 ## 1.fork此项目
 
 ## 2.配置仓库变量
-在setting设置里找到Secrets and variables下的 Actions
+### 在setting设置里找到Secrets and variables下的 Actions
 ![alt text](./imgs/0967c8acc1a7ab5809d8008415a325c6.png)
 ### 格式
   **密钥名为：IKUUU_ACCOUNTS** (注意此数据结构为json,请不要尾随逗号,为确保格式正确请在ide里书写好json数据在复制到此处)
