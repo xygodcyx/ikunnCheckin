@@ -15,5 +15,6 @@
   ]
   ```
 ### 配置完毕后记得首次启动一下action
+![alt text](./imgs/action.png)
 
 ## 愉快的使用‘坐享其成’吧
