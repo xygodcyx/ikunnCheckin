@@ -8,7 +8,9 @@ async function login(email, password) {
       code: ''
     });
 
-    const response = await fetch("https://ikuuu.one/auth/login", {
+    const baseURL = process.env.IKUUU_API_PATH
+
+    const response = await fetch(`${baseURL}/auth/login`, {
       method: "POST",
       headers: {
         "accept": "application/json, text/javascript, */*; q=0.01",
@@ -39,7 +41,7 @@ async function login(email, password) {
 
 async function checkin(cookies) {
   try {
-    const response = await fetch("https://ikuuu.one/user/checkin", {
+    const response = await fetch(`${baseURL}/user/checkin`, {
       headers: {
         "accept": "application/json, text/javascript, */*; q=0.01",
         "x-requested-with": "XMLHttpRequest",
