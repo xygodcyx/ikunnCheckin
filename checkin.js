@@ -8,7 +8,7 @@ async function login(email, password) {
       code: ''
     });
 
-    const baseURL = process.env.IKUUU_API_PATH
+    
 
     const response = await fetch(`${baseURL}/auth/login`, {
       method: "POST",
@@ -72,11 +72,16 @@ async function processAccount(account) {
     console.log(`Checkin result for ${account.email}:`, checkinResult);
   }
 }
-
+let baseURL = null
 async function main() {
   const accountsJson = process.env.IKUUU_ACCOUNTS;
+  const baseURL = process.env.IKUUU_API_PATH
   if (!accountsJson) {
     console.error('No accounts found in environment variable');
+    return;
+  }
+  if (!baseURL) {
+    console.error('No baseURL found in environment variable');
     return;
   }
   let accounts;
