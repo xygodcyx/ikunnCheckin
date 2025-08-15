@@ -23,4 +23,5 @@ jobs:
       - name: Run checkin script
         env:
           IKUUU_ACCOUNTS: ${{ secrets.IKUUU_ACCOUNTS }}
+          IKUUU_API_PATH: ${{ secrets.IKUUU_API_PATH }}
         run: node checkin.js
