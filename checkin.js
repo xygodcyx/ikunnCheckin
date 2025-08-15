@@ -7,9 +7,6 @@ async function login(email, password) {
       remember_me: 'on',
       code: ''
     });
-
-    
-
     const response = await fetch(`${baseURL}/auth/login`, {
       method: "POST",
       headers: {
@@ -75,7 +72,7 @@ async function processAccount(account) {
 let baseURL = null
 async function main() {
   const accountsJson = process.env.IKUUU_ACCOUNTS;
-  const baseURL = process.env.IKUUU_API_PATH
+  baseURL = process.env.IKUUU_API_PATH
   if (!accountsJson) {
     console.error('No accounts found in environment variable');
     return;
