@@ -3,7 +3,7 @@ name: iKuuu Daily Checkin
 on:
   # run automatically every 24 hours
   schedule:
-    - cron: "0 */24 * * *" 
+    - cron: '0 */24 * * *'
 
   # allows to manually run the job at any time
   workflow_dispatch:
@@ -20,8 +20,13 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install deps
+        run: npm i pnpm -g && pnpm i
+
       - name: Run checkin script
         env:
-          IKUUU_ACCOUNTS: ${{ secrets.IKUUU_ACCOUNTS }}
           IKUUU_API_PATH: ${{ secrets.IKUUU_API_PATH }}
-        run: node checkin.js
+          COOKIE_CLOUD_API_PATH: ${{ secrets.COOKIE_CLOUD_API_PATH }}
+          COOKIE_CLOUD_UUID: ${{ secrets.COOKIE_CLOUD_UUID }}
+          COOKIE_CLOUD_PASSWORD: ${{ secrets.COOKIE_CLOUD_PASSWORD }}
+        run: node index.js
