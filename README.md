@@ -1,6 +1,6 @@
 # ikuuu 自动签到脚本
 
-基于 Node.js 的 ikuuu 网站自动签到脚本，支持从 CookieCloud 获取加密 Cookie，并调用签到接口完成每日签到。
+基于 Node.js 的 ikuuu 网站自动签到脚本，支持从 [CookieCloud](https://github.com/easychen/CookieCloud) 获取加密 Cookie，并调用签到接口完成每日签到。
 
 **特别支持 GitHub Actions 定时自动执行**，无需自建服务器。
 
