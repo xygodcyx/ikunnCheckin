@@ -56,8 +56,6 @@ SMTP_PASS=your-smtp-auth-code
 TO_EMAIL=receiver@qq.com
 ```
 
-````
-
 > **邮件通知是可选的**：如果不配置 `SMTP_USER`、`SMTP_PASS`、`TO_EMAIL` 中的任何一个，邮件功能会自动禁用，签到照常执行。
 
 ### 方式二：GitHub Actions 运行
@@ -330,4 +328,3 @@ jobs:
 ## License
 
 MIT
-````
