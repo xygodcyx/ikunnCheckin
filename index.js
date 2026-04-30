@@ -25,7 +25,6 @@ async function get_cookie() {
     `/cookiecloud/get/${cookiecloudUUID}`,
     cookiecloudUrl,
   ).toString()
-  console.log(url)
   const res = await fetch(url, {
     method: 'get',
   })
