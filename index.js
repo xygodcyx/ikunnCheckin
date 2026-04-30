@@ -1,5 +1,6 @@
 import CryptoJS from 'crypto-js'
 import env from 'dotenv'
+import { sendCheckinResult } from './lib/email-utils.js'
 env.config()
 const baseURL = process.env.IKUUU_API_PATH
 const cookiecloudUrl = process.env.COOKIE_CLOUD_API_PATH
@@ -28,8 +29,15 @@ async function get_cookie() {
   const res = await fetch(url, {
     method: 'get',
   })
+  if (!cookiecloudUUID) {
+    console.warn('没有cookiecloudUUID')
+    return
+  }
+  if (!cookiecloudPassword) {
+    console.warn('没有cookiecloudPassword')
+    return
+  }
   const data = await res.json()
-
   const allCookie = cookie_decrypt(
     cookiecloudUUID,
     data.encrypted,
@@ -56,7 +64,6 @@ async function get_cookie() {
 
   return cookie
 }
-
 async function checkin(cookies) {
   try {
     const response = await fetch(
@@ -76,7 +83,10 @@ async function checkin(cookies) {
     return data
   } catch (error) {
     console.error('Checkin failed:', error)
-    return null
+    return {
+      msg: `签到失败, 脚本报错 :${error.message}`,
+      ret: 0,
+    }
   }
 }
 
@@ -96,8 +106,17 @@ async function main() {
 
   const cookies = await get_cookie()
 
-  const checkinResult = await checkin(cookies)
+  if (!cookies) {
+    console.warn('没有cookies')
+    return
+  }
 
+  const checkinResult = await checkin(cookies)
+  console.log(checkinResult)
+  await sendCheckinResult({
+    Data: checkinResult.ret ? '签到成功' : '签到失败',
+    Description: checkinResult.msg,
+  })
   if (checkinResult) {
     console.log(`Checkin result :`, checkinResult)
   }

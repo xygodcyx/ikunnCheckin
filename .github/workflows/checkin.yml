@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '0 */24 * * *'
 
+  push:
+    - main
+
   # allows to manually run the job at any time
   workflow_dispatch:
 
@@ -21,7 +24,7 @@ jobs:
           node-version: '18'
 
       - name: Install deps
-        run: npm i pnpm -g && pnpm i
+        run: npm i bun -g && bun run start
 
       - name: Run checkin script
         env:
@@ -29,4 +32,9 @@ jobs:
           COOKIE_CLOUD_API_PATH: ${{ secrets.COOKIE_CLOUD_API_PATH }}
           COOKIE_CLOUD_UUID: ${{ secrets.COOKIE_CLOUD_UUID }}
           COOKIE_CLOUD_PASSWORD: ${{ secrets.COOKIE_CLOUD_PASSWORD }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: node index.js

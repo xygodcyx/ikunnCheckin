@@ -14,8 +14,30 @@ importers:
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
+      nodemailer:
+        specifier: ^8.0.7
+        version: 8.0.7
+    devDependencies:
+      '@types/crypto-js':
+        specifier: ^4.2.2
+        version: 4.2.2
+      '@types/node':
+        specifier: ^25.6.0
+        version: 25.6.0
+      '@types/nodemailer':
+        specifier: ^8.0.0
+        version: 8.0.0
 
 packages:
+
+  '@types/crypto-js@4.2.2':
+    resolution: {integrity: sha512-sDOLlVbHhXpAUAL0YHDUUwDZf3iN4Bwi4W6a0W0b+QcAezUbRtH4FVb+9J4h+XFPW7l/gQ9F8qC7P+Ec4k8QVQ==}
+
+  '@types/node@25.6.0':
+    resolution: {integrity: sha512-+qIYRKdNYJwY3vRCZMdJbPLJAtGjQBudzZzdzwQYkEPQd+PJGixUL5QfvCLDaULoLv+RhT3LDkwEfKaAkgSmNQ==}
+
+  '@types/nodemailer@8.0.0':
+    resolution: {integrity: sha512-fyf8jWULsCo0d0BuoQ75i6IeoHs47qcqxWc7yUdUcV0pOZGjUTTOvwdG1PRXUDqN/8A64yQdQdnA2pZgcdi+cA==}
 
   crypto-js@4.2.0:
     resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
@@ -24,8 +46,29 @@ packages:
     resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
     engines: {node: '>=12'}
 
+  nodemailer@8.0.7:
+    resolution: {integrity: sha512-pkjE4mkBzQjdJT4/UmlKl3pX0rC9fZmjh7c6C9o7lv66Ac6w9WCnzPzhbPNxwZAzlF4mdq4CSWB5+FbK6FWCow==}
+    engines: {node: '>=6.0.0'}
+
+  undici-types@7.19.2:
+    resolution: {integrity: sha512-qYVnV5OEm2AW8cJMCpdV20CDyaN3g0AjDlOGf1OW4iaDEx8MwdtChUp4zu4H0VP3nDRF/8RKWH+IPp9uW0YGZg==}
+
 snapshots:
+
+  '@types/crypto-js@4.2.2': {}
+
+  '@types/node@25.6.0':
+    dependencies:
+      undici-types: 7.19.2
+
+  '@types/nodemailer@8.0.0':
+    dependencies:
+      '@types/node': 25.6.0
 
   crypto-js@4.2.0: {}
 
   dotenv@17.4.2: {}
+
+  nodemailer@8.0.7: {}
+
+  undici-types@7.19.2: {}
