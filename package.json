@@ -1,6 +1,6 @@
 {
 	"scripts": {
-		"start": "bun index.ts"
+		"start": "node index.js"
 	},
 	"type": "module",
 	"dependencies": {
