@@ -113,7 +113,7 @@ async function main() {
     return
   }
 
-  const checkinResult = await checkin('cookies')
+  const checkinResult = await checkin(cookies)
 
   const msg = `签到失败, 将在 ${new Date(Date.now() + 1000 * 60 * 30).toLocaleTimeString()} 时进行重试 (${retryCounter} / 10)`
 
