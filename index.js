@@ -87,7 +87,7 @@ async function checkin(cookies) {
     console.error('Checkin failed:', error)
     return {
       msg: `签到失败, 脚本报错 :${error.message}`,
-      ret: 0,
+      ret: -1,
     }
   }
 }
@@ -115,49 +115,50 @@ async function main() {
 
   const checkinResult = await checkin(cookies)
 
-  const msg = `签到失败, 将在 ${new Date(Date.now() + 1000 * 60 * 30).toLocaleTimeString()} 时进行重试 (${retryCounter} / 10)`
+  const msg = `签到失败, 将在 ${new Date(Date.now() + 1000 * 60 * 30).toLocaleTimeString()} 时进行重试 (${'retryCounter'} / 10)`
 
   if (checkinResult) {
     console.log(`Checkin result :`, checkinResult)
   }
 
-  if (!checkinResult.ret) {
-    console.warn(msg)
+  if (checkinResult.ret === -1) {
+    console.warn(msg.replace('retryCounter', retryCounter))
   }
 
   await sendCheckinResult({
-    Data: checkinResult.ret ? '签到成功' : msg,
+    Data: checkinResult.ret
+      ? '签到成功'
+      : msg.replace('retryCounter', retryCounter),
     Description: checkinResult.msg,
   })
 
-  if (!checkinResult.ret) {
+  if (checkinResult.ret === -1) {
     console.log('Retry in 30min...')
-    retryId = setInterval(
-      async () => {
-        const checkinResult = await checkin(cookies)
+    retryId = setInterval(async () => {
+      const checkinResult = await checkin(cookies)
 
-        if (checkinResult) {
-          console.log(
-            `Retry Checkin result :`,
-            checkinResult,
-          )
-        }
+      if (checkinResult) {
+        console.log(`Retry Checkin result :`, checkinResult)
+      }
 
-        if (!checkinResult.ret) {
-          console.warn(msg)
-          retryCounter++
-        } else if (retryCounter >= 10) {
-          clearInterval(retryId)
-          return
-        }
+      if (checkinResult.ret === -1 && retryCounter < 10) {
+        retryCounter++
+        console.warn(
+          msg.replace('retryCounter', retryCounter),
+        )
+      }
 
-        await sendCheckinResult({
-          Data: checkinResult.ret ? '重试成功' : msg,
-          Description: checkinResult.msg,
-        })
-      },
-      1000 * 60 * 30,
-    )
+      await sendCheckinResult({
+        Data: checkinResult.ret
+          ? '重试成功'
+          : msg.replace('retryCounter', retryCounter),
+        Description: checkinResult.msg,
+      })
+
+      if (retryCounter >= 10) {
+        clearInterval(retryId)
+      }
+    }, 1000)
   }
 }
 
