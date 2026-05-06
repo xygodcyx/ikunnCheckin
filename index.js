@@ -8,6 +8,9 @@ const cookiecloudUUID = process.env.COOKIE_CLOUD_UUID
 const cookiecloudPassword =
   process.env.COOKIE_CLOUD_PASSWORD
 
+let retryId = 0
+let retryCounter = 0
+
 function cookie_decrypt(uuid, encrypted, password) {
   const the_key = CryptoJS.MD5(uuid + '-' + password)
     .toString()
@@ -110,14 +113,51 @@ async function main() {
     return
   }
 
-  const checkinResult = await checkin(cookies)
-  console.log(checkinResult)
-  await sendCheckinResult({
-    Data: checkinResult.ret ? '签到成功' : '签到失败',
-    Description: checkinResult.msg,
-  })
+  const checkinResult = await checkin('cookies')
+
+  const msg = `签到失败, 将在 ${new Date(Date.now() + 1000 * 60 * 30).toLocaleTimeString()} 时进行重试 (${retryCounter} / 10)`
+
   if (checkinResult) {
     console.log(`Checkin result :`, checkinResult)
+  }
+
+  if (!checkinResult.ret) {
+    console.warn(msg)
+  }
+
+  await sendCheckinResult({
+    Data: checkinResult.ret ? '签到成功' : msg,
+    Description: checkinResult.msg,
+  })
+
+  if (!checkinResult.ret) {
+    console.log('Retry in 30min...')
+    retryId = setInterval(
+      async () => {
+        const checkinResult = await checkin(cookies)
+
+        if (checkinResult) {
+          console.log(
+            `Retry Checkin result :`,
+            checkinResult,
+          )
+        }
+
+        if (!checkinResult.ret) {
+          console.warn(msg)
+          retryCounter++
+        } else if (retryCounter >= 10) {
+          clearInterval(retryId)
+          return
+        }
+
+        await sendCheckinResult({
+          Data: checkinResult.ret ? '重试成功' : msg,
+          Description: checkinResult.msg,
+        })
+      },
+      1000 * 60 * 30,
+    )
   }
 }
 
