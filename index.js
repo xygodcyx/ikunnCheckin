@@ -157,7 +157,9 @@ async function main() {
         await sendCheckinResult({
           Data: checkinResult.ret
             ? '重试成功'
-            : msg.replace('retryCounter', retryCounter),
+            : checkinResult.ret === -1
+              ? msg.replace('retryCounter', retryCounter)
+              : '签到失败',
           Description: checkinResult.msg,
         })
 
