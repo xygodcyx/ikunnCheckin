@@ -134,31 +134,37 @@ async function main() {
 
   if (checkinResult.ret === -1) {
     console.log('Retry in 30min...')
-    retryId = setInterval(async () => {
-      const checkinResult = await checkin(cookies)
+    retryId = setInterval(
+      async () => {
+        const checkinResult = await checkin(cookies)
 
-      if (checkinResult) {
-        console.log(`Retry Checkin result :`, checkinResult)
-      }
+        if (checkinResult) {
+          console.log(
+            `Retry Checkin result :`,
+            checkinResult,
+          )
+        }
 
-      if (checkinResult.ret === -1 && retryCounter < 10) {
-        retryCounter++
-        console.warn(
-          msg.replace('retryCounter', retryCounter),
-        )
-      }
+        if (checkinResult.ret === -1 && retryCounter < 10) {
+          retryCounter++
+          console.warn(
+            msg.replace('retryCounter', retryCounter),
+          )
+        }
 
-      await sendCheckinResult({
-        Data: checkinResult.ret
-          ? '重试成功'
-          : msg.replace('retryCounter', retryCounter),
-        Description: checkinResult.msg,
-      })
+        await sendCheckinResult({
+          Data: checkinResult.ret
+            ? '重试成功'
+            : msg.replace('retryCounter', retryCounter),
+          Description: checkinResult.msg,
+        })
 
-      if (retryCounter >= 10) {
-        clearInterval(retryId)
-      }
-    }, 1000)
+        if (retryCounter >= 10) {
+          clearInterval(retryId)
+        }
+      },
+      1000 * 60 * 30,
+    )
   }
 }
 
